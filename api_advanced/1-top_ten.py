@@ -3,8 +3,8 @@
 This module contains a function that queries the Reddit API and prints
 the titles of the first 10 hot posts for a given subreddit.
 
-If the subreddit is invalid or cannot be accessed, it prints None.
-A custom User-Agent is required to avoid Too Many Requests errors.
+Invalid subreddits should print None. Redirects must not be followed.
+A custom User-Agent helps avoid Too Many Requests errors.
 """
 
 import requests
@@ -12,10 +12,14 @@ import requests
 
 def top_ten(subreddit):
     """
-    Prints the titles of the first 10 hot posts listed for a subreddit.
+    Print the titles of the first 10 hot posts for a subreddit.
 
     Args:
         subreddit (str): The name of the subreddit.
+
+    Prints:
+        The titles of up to 10 hot posts, or None if the subreddit is
+        invalid or an error occurs.
     """
     if not isinstance(subreddit, str) or subreddit is None:
         print(None)
@@ -23,7 +27,7 @@ def top_ten(subreddit):
 
     url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
     headers = {
-        "User-Agent": "linux:api_advanced.top_ten:v1.0 (by u/student)"
+        "User-Agent": "linux:api_advanced:v1.0 (by u/student)"
     }
 
     try:
