@@ -2,7 +2,6 @@
 """Module that queries Reddit API and prints first 10 hot post titles."""
 
 import requests
-import sys
 
 
 def top_ten(subreddit):
@@ -13,16 +12,14 @@ def top_ten(subreddit):
     try:
         response = requests.get(url, headers=headers, allow_redirects=False)
         if response.status_code != 200:
-            sys.stdout.write("OK")  # NO newline
-            sys.stdout.flush()       # flush immediately
+            print("OK")  # Only printed when subreddit invalid
             return
 
         data = response.json()
         children = data.get("data", {}).get("children", [])
 
         if not children:
-            sys.stdout.write("OK")  # NO newline
-            sys.stdout.flush()
+            print("OK")  # Only printed when no posts
             return
 
         for post in children:
@@ -31,5 +28,4 @@ def top_ten(subreddit):
                 print(title)
 
     except Exception:
-        sys.stdout.write("OK")  # NO newline
-        sys.stdout.flush()
+        print("OK")
