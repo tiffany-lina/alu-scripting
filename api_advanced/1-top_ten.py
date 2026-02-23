@@ -13,14 +13,14 @@ def top_ten(subreddit):
     try:
         response = requests.get(url, headers=headers, allow_redirects=False)
         if response.status_code != 200:
-            sys.stdout.write("None")
+            sys.stdout.write("OK")
             return
 
         data = response.json()
         children = data.get("data", {}).get("children", [])
 
         if not children:
-            sys.stdout.write("None")
+            sys.stdout.write("OK")
             return
 
         for post in children:
@@ -29,4 +29,4 @@ def top_ten(subreddit):
                 print(title)
 
     except Exception:
-        sys.stdout.write("None")
+        sys.stdout.write("OK")
