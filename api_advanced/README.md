@@ -31,3 +31,4 @@ This project contains functions that interact with the Reddit API.
 - Invalid subreddits should return 0 (`0-subs.py`) or print None (`1-top_ten.py`).
 - Redirects must **not** be followed.
 - All code must be **PEP8 compliant**.
+Reddit API advanced project - ALU.
