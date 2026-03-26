@@ -1,31 +1,30 @@
 #!/usr/bin/python3
-"""Module that queries Reddit API and prints first 10 hot post titles."""
+"""
+1-top_ten.py
+Queries the Reddit API and prints the titles of the first 10 hot posts for a given subreddit.
+"""
 
 import requests
 
 
 def top_ten(subreddit):
-    """Print the titles of the first 10 hot posts for a subreddit."""
-    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
-    headers = {"User-Agent": "alu-top-ten/1.0"}
+    """Queries Reddit API and prints titles of first 10 hot posts of a subreddit."""
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+    headers = {"User-Agent": "ALU-project:top_ten:v1.0 (by /u/ubuntu)"}
 
     try:
-        response = requests.get(url, headers=headers, allow_redirects=False)
+        # Do not follow redirects (invalid subreddit will redirect)
+        response = requests.get(url, headers=headers, allow_redirects=False, timeout=10)
+
+        # Invalid subreddit (redirect or not 200)
         if response.status_code != 200:
-            print("OK")  # Only printed when subreddit invalid
+            print(None)
             return
 
-        data = response.json()
-        children = data.get("data", {}).get("children", [])
-
-        if not children:
-            print("OK")  # Only printed when no posts
-            return
-
-        for post in children:
-            title = post.get("data", {}).get("title")
-            if title:
-                print(title)
+        # Extract posts safely
+        posts = response.json().get("data", {}).get("children", [])
+        for post in posts:
+            print(post["data"].get("title"))
 
     except Exception:
-        print("OK")
+        print(None)
